@@ -37,16 +37,28 @@ print("A járművek: ", *legnagyobbjarmuvek, sep=" ")
 print("\n6. feladat: ")
 rendszam = input("Kérem, adja meg a rendszámot: ")
 idopontok = [i[1:4] for i in adatok if i[0] == rendszam]
-tav = 0.0
-for i in range(len(idopontok)-2):
-    print(f"{idopontok[i][0]}:{idopontok[i][1]} {tav} km")
-    idopontkulnbseg_percben = (idopontok[i+1][0] * 60 + idopontok[i+1][1]) - (idopontok[i][0] * 60 + idopontok[i][1])
-    tav = round(tav + (idopontkulnbseg_percben / 60) * idopontok[i][2], 1)
+if len(idopontok) != 0:
+    tav = 0.0
+    for i in range(len(idopontok)-1):
+        print(f"{idopontok[i][0]}:{idopontok[i][1]} {tav} km")
+        idopontkulnbseg_percben = (idopontok[i+1][0] * 60 + idopontok[i+1][1]) - (idopontok[i][0] * 60 + idopontok[i][1])
+        tav = round(tav + (idopontkulnbseg_percben / 60) * idopontok[i][2], 1)
+else:
+    print("Nincs ilyen rendszám")
 
-print(f"{idopontok[i][0]}:{idopontok[i][1]} {tav} km")
-
+print(f"{idopontok[i+1][0]}:{idopontok[i+1][1]} {tav} km")
 elso_utolsoidok = dict()
 for i in adatok:
-    if i[0] in elso_utolsoidok.keys():
-        print(adatok[0][1:3])
-        # elso_utolsoidok[i[0]].append(adatok[1:3])
+    if i[0] in elso_utolsoidok.keys():    
+        elso_utolsoidok[i[0]].append(i[1:3])
+    else:
+        elso_utolsoidok[i[0]] = [i[1:3]]
+
+
+with open("ido.txt", "w", encoding="UTF-8") as file:
+    for i in elso_utolsoidok.items():
+        file.write(f"{i[0]} {i[1][0][0]} {i[1][0][1]} {i[1][-1][0]} {i[1][-1][1]}\n")
+
+
+
+# Elkeszitesi ido: 1 ora 10 perc
